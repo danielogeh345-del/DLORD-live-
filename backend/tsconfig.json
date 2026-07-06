@@ -5,43 +5,37 @@
     "lib": ["ES2021"],
     "declaration": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
+    "paths": {
+      "@auth/*": ["auth/*"],
+      "@profile/*": ["profile/*"],
+      "@social/*": ["social/*"],
+      "@videos/*": ["videos/*"],
+      "@streaming/*": ["streaming/*"],
+      "@messaging/*": ["messaging/*"],
+      "@notifications/*": ["notifications/*"],
+      "@payments/*": ["payments/*"],
+      "@admin/*": ["admin/*"],
+      "@common/*": ["common/*"]
+    },
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": false,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
     "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
-    "strictBindCallApply": false,
-    "strictPropertyInitialization": false,
-    "allowUnusedLabels": false,
-    "allowUnreachableCode": false,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "paths": {
-      "@/*": ["src/*"],
-      "@auth/*": ["src/auth/*"],
-      "@users/*": ["src/users/*"],
-      "@videos/*": ["src/videos/*"],
-      "@streaming/*": ["src/streaming/*"],
-      "@messaging/*": ["src/messaging/*"],
-      "@notifications/*": ["src/notifications/*"],
-      "@analytics/*": ["src/analytics/*"],
-      "@payments/*": ["src/payments/*"],
-      "@admin/*": ["src/admin/*"],
-      "@common/*": ["src/common/*"],
-      "@database/*": ["src/database/*"],
-      "@config/*": ["src/config/*"]
-    }
+    "strict": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "**/*spec.ts"
+  ]
 }

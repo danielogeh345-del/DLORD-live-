@@ -1,80 +1,56 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CacheModule } from '@nestjs/cache-manager';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import * as redisStore from 'cache-manager-redis-store';
-import { AuthModule } from '@auth/auth.module';
-import { UsersModule } from '@users/users.module';
-import { VideosModule } from '@videos/videos.module';
-import { StreamingModule } from '@streaming/streaming.module';
-import { MessagingModule } from '@messaging/messaging.module';
-import { NotificationsModule } from '@notifications/notifications.module';
-import { AnalyticsModule } from '@analytics/analytics.module';
-import { PaymentsModule } from '@payments/payments.module';
-import { AdminModule } from '@admin/admin.module';
-import { join } from 'path';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './auth/auth.module';
+import { ProfileModule } from './profile/profile.module';
+import { SocialModule } from './social/social.module';
+import { VideosModule } from './videos/videos.module';
+import { StreamingModule } from './streaming/streaming.module';
+import { MessagingModule } from './messaging/messaging.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { PaymentsModule } from './payments/payments.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
-    // Configuration
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
-
-    // Database
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
-        entities: [join(__dirname, '**', '*.entity{.ts,.js}')],
-        migrations: [join(__dirname, 'database/migrations/*{.ts,.js}')],
-        subscribers: [join(__dirname, 'database/subscribers/*{.ts,.js}')],
-        synchronize: process.env.NODE_ENV === 'development',
-        logging: process.env.NODE_ENV === 'development',
-        ssl: configService.get('DB_SSL') === 'true',
+        host: configService.get('DB_HOST', 'localhost'),
+        port: configService.get('DB_PORT', 5432),
+        username: configService.get('DB_USERNAME', 'postgres'),
+        password: configService.get('DB_PASSWORD', 'password'),
+        database: configService.get('DB_NAME', 'dlord_live'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: configService.get('NODE_ENV') !== 'production',
+        logging: configService.get('NODE_ENV') !== 'production',
       }),
     }),
-
-    // Cache
-    CacheModule.registerAsync({
-      isGlobal: true,
+    JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        store: redisStore,
-        host: configService.get('REDIS_HOST'),
-        port: configService.get('REDIS_PORT'),
-        password: configService.get('REDIS_PASSWORD'),
-        db: configService.get('REDIS_DB'),
-        ttl: 3600,
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET', 'your-secret-key'),
+        signOptions: {
+          expiresIn: configService.get('JWT_EXPIRATION', '24h'),
+        },
       }),
+      global: true,
     }),
-
-    // GraphQL
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      sortSchema: true,
-      context: ({ req }) => ({ req }),
-    }),
-
-    // Feature modules
     AuthModule,
-    UsersModule,
+    ProfileModule,
+    SocialModule,
     VideosModule,
     StreamingModule,
     MessagingModule,
     NotificationsModule,
-    AnalyticsModule,
     PaymentsModule,
     AdminModule,
   ],

@@ -1,54 +1,70 @@
 export enum UserRole {
-  USER = 'user',
-  CREATOR = 'creator',
-  PREMIUM = 'premium',
-  ADMIN = 'admin',
-  MODERATOR = 'moderator',
-}
-
-export enum VerificationStatus {
-  UNVERIFIED = 'unverified',
-  EMAIL_VERIFIED = 'email_verified',
-  PHONE_VERIFIED = 'phone_verified',
-  FULLY_VERIFIED = 'fully_verified',
+  USER = 'USER',
+  CREATOR = 'CREATOR',
+  ADMIN = 'ADMIN',
 }
 
 export enum VideoStatus {
-  DRAFT = 'draft',
-  PROCESSING = 'processing',
-  PUBLISHED = 'published',
-  ARCHIVED = 'archived',
-  DELETED = 'deleted',
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  DELETED = 'DELETED',
 }
 
 export enum StreamStatus {
-  UPCOMING = 'upcoming',
-  LIVE = 'live',
-  ENDED = 'ended',
-  ARCHIVED = 'archived',
+  UPCOMING = 'UPCOMING',
+  LIVE = 'LIVE',
+  ENDED = 'ENDED',
 }
 
 export enum MessageType {
-  TEXT = 'text',
-  IMAGE = 'image',
-  VIDEO = 'video',
-  VOICE_NOTE = 'voice_note',
-  FILE = 'file',
+  TEXT = 'TEXT',
+  MEDIA = 'MEDIA',
+  GIFT = 'GIFT',
 }
 
 export enum NotificationType {
-  LIKE = 'like',
-  COMMENT = 'comment',
-  FOLLOW = 'follow',
-  MESSAGE = 'message',
-  MENTION = 'mention',
-  LIVE_STARTED = 'live_started',
-  GIFT_RECEIVED = 'gift_received',
+  FOLLOW = 'FOLLOW',
+  LIKE = 'LIKE',
+  COMMENT = 'COMMENT',
+  GIFT = 'GIFT',
+  MESSAGE = 'MESSAGE',
+  STREAM = 'STREAM',
 }
 
-export enum PaymentStatus {
-  PENDING = 'pending',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  REFUNDED = 'refunded',
+export enum TransactionStatus {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum PaymentMethod {
+  CREDIT_CARD = 'CREDIT_CARD',
+  DEBIT_CARD = 'DEBIT_CARD',
+  PAYPAL = 'PAYPAL',
+  STRIPE = 'STRIPE',
+  WALLET = 'WALLET',
+}
+
+export enum ReportType {
+  HARASSMENT = 'HARASSMENT',
+  SPAM = 'SPAM',
+  INAPPROPRIATE_CONTENT = 'INAPPROPRIATE_CONTENT',
+  COPYRIGHT = 'COPYRIGHT',
+  OTHER = 'OTHER',
+}
+
+export enum ReportStatus {
+  PENDING = 'PENDING',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  RESOLVED = 'RESOLVED',
+  DISMISSED = 'DISMISSED',
+}
+
+export enum ActionType {
+  RESOLVE_REPORT = 'RESOLVE_REPORT',
+  SUSPEND_USER = 'SUSPEND_USER',
+  UNSUSPEND_USER = 'UNSUSPEND_USER',
+  DELETE_CONTENT = 'DELETE_CONTENT',
+  WARN_USER = 'WARN_USER',
 }
